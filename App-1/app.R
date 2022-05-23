@@ -157,10 +157,10 @@ server <- function(input, output, session) {
 	df <- data.frame(RNA = RNA_tissue,
 		 Protein = Prot_tissue,
 		 somaTOsynapse = soma_syn_r,
-		condition = c(rep("YG", n), rep("CT", n), rep("PD", n)),
+		condition = c(rep("YG", n), rep("HA", n), rep("PD", n)),
 		RNA_expr_counts_unn = RNA_expr_counts_unn)
 
-	#cols <- c("PD" = "#ef476f", "CT" = "#073b4c", "YG" = "#06d6a0")
+	cols <- c("PD" = "#ef476f", "HA" = "#073b4c", "YG" = "#06d6a0")
 
 	ggplot(df, aes(x = RNA, y = Protein)) +
 	geom_smooth(method = "lm", col = "lightgrey") +
@@ -169,15 +169,15 @@ server <- function(input, output, session) {
 	facet_wrap(~condition) +
 	new_scale_color() +
 	ggpubr::stat_cor(aes(col = condition)) +
-	#scale_color_manual(values = cols) +
+	scale_color_manual(values = cols) +
 	theme_light() -> p1
 	
 	ggplot(df,aes(x = soma_syn_r)) +
 		geom_density(aes(col = condition)) +
 		geom_histogram(aes(y = ..density.., fill = condition), alpha = .1, binwidth = input$bins) +
 		theme_light() +
-	#	scale_fill_manual(values = cols) +
-	#	scale_color_manual(values = cols) + 
+		scale_fill_manual(values = cols) +
+		scale_color_manual(values = cols) + 
 		guides(fill = F) -> p2
 	ggplot(df, aes(x = RNA_expr_counts_unn)) +
 		geom_density() -> p3
